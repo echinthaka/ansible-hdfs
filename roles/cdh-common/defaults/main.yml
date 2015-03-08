@@ -2,7 +2,7 @@
 # Global Parameters
 
 # Cluster name
-site_name: Comprehend_HDFS_Cluster
+site_name: HA_HDFS_Cluster
 
 hadoop:
   dfs_dir_parent: /data/hadoop

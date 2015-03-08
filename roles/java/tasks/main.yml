@@ -23,6 +23,3 @@
   sudo: yes
   lineinfile: "dest=/etc/profile regexp='^JAVA_HOME=/usr/lib/jvm/java-7-oracle' line='JAVA_HOME=/usr/lib/jvm/java-7-oracle' state=present"
   lineinfile: "dest=/etc/profile regexp='^PATH=.*JAVA_HOME.*' line='PATH=$PATH:$HOME/bin:$JAVA_HOME/bin' state=present"
-  # with_items: TODO the construct below doesn't work with Ansible > 1.6.6 probably failing security checks
-  #   - dest=/etc/profile regexp='^JAVA_HOME\=/usr/lib/jvm/java-7-oracle' line='JAVA_HOME=/usr/lib/jvm/java-7-oracle' state=present
-  #   - dest=/etc/profile regexp='^PATH\=.*JAVA_HOME.*' line='PATH=$PATH:$HOME/bin:$JAVA_HOME/bin' state=present
