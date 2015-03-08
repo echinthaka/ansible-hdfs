@@ -1,0 +1,12 @@
+---
+- name: copy /etc/hadoop/conf.empty to /etc/hadoop/conf
+  command: creates=/etc/hadoop/conf cp -R -p /etc/hadoop/conf.empty /etc/hadoop/conf
+
+- name: configure hadoop in /etc/hadoop/conf
+  template: src={{ item }} dest=/etc/hadoop/conf/{{ item }} owner=root group=root mode=0644
+  with_items:
+    - core-site.xml
+    - hadoop-env.sh
+    - hdfs-site.xml
+    - slaves
+    - dfs.hosts.exclude

@@ -1,0 +1,14 @@
+- name: Make sure the hdfs group is present
+  action: group gid={{ hdfs_gid }} name={{ hdfs_group }} state=present
+
+- name: Make sure the hdfs user directory is present
+  action: file path="/app/home/{{ hdfs_user }}" state=directory
+
+- name: Make sure the hdfs user is present
+  user: uid={{ hdfs_uid }} name={{ hdfs_user }} group={{ hdfs_group }} home="/app/home/{{ hdfs_user }}" shell=/bin/bash state=present comment="hdfs user"
+
+- name: Set the right hdfs user directory permissions
+  action: file path="/app/home/{{ hdfs_user }}" owner={{ hdfs_user }} group={{ hdfs_group }} mode=0700 state=directory
+
+- name: Set the right expiration on the hdfs user
+  command: "sudo chage -I -1 -E -1 -m -1 -M -1 -W -1 -E -1 {{ hdfs_user }}"

@@ -1,0 +1,18 @@
+---
+- name: install hadoop-hdfs-namenode via apt
+  apt: name=hadoop-hdfs-namenode state=installed
+
+- name: create the name node data directory
+  file: path={{ hadoop.dfs_dir_parent  }}{{ hadoop.dfs_dir_nn }} owner=hdfs group=hdfs state=directory
+
+- name: wait for the first namenode to come online
+  wait_for: host={{ groups['namenodes'][0] }} port=50070
+
+- name: bootstrap the standby namenode
+  shell: creates={{ hadoop.dfs_dir_parent  }}{{ hadoop.dfs_dir_nn }}/.bootstrapped su - hdfs -c "hdfs namenode -bootstrapStandby"; touch {{ hadoop.dfs_dir_parent  }}{{ hadoop.dfs_dir_nn }}/.bootstrapped
+
+- name: install hadoop-hdfs-zkfc (Hadoop HDFS Zookeeper Failover Controller) via apt
+  apt: name=hadoop-hdfs-zkfc state=installed
+
+- name: start standby namenode
+  service: name=hadoop-hdfs-namenode state=restarted enabled=yes

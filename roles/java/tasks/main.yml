@@ -1,0 +1,28 @@
+---
+- name: Ensuring dependencies are met
+  sudo: yes
+  apt: name={{item}} state=present
+  with_items:
+    - python-pycurl
+    - python-apt
+
+# Java 7 installation instructions taken from http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html
+- name: Adding webupd8 repository to install Java 7
+  sudo: yes
+  apt_repository: repo='ppa:webupd8team/java' state=present update_cache=yes
+
+- name: Accepting Oracle license prior to installing Java 7
+  sudo: yes
+  shell:  /usr/bin/debconf-set-selections <( echo 'oracle-java7-installer shared/accepted-oracle-license-v1-1 select true' ) executable=/bin/bash
+
+- name: Installing Java 1.7
+  sudo: yes
+  apt: name=oracle-java7-installer state=present
+
+- name: JDK | Oracle JDK | Add the JDK binaries to the system path (/etc/profile)
+  sudo: yes
+  lineinfile: "dest=/etc/profile regexp='^JAVA_HOME=/usr/lib/jvm/java-7-oracle' line='JAVA_HOME=/usr/lib/jvm/java-7-oracle' state=present"
+  lineinfile: "dest=/etc/profile regexp='^PATH=.*JAVA_HOME.*' line='PATH=$PATH:$HOME/bin:$JAVA_HOME/bin' state=present"
+  # with_items: TODO the construct below doesn't work with Ansible > 1.6.6 probably failing security checks
+  #   - dest=/etc/profile regexp='^JAVA_HOME\=/usr/lib/jvm/java-7-oracle' line='JAVA_HOME=/usr/lib/jvm/java-7-oracle' state=present
+  #   - dest=/etc/profile regexp='^PATH\=.*JAVA_HOME.*' line='PATH=$PATH:$HOME/bin:$JAVA_HOME/bin' state=present

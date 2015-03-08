@@ -1,0 +1,13 @@
+---
+# see http://touk.pl/blog/en/2012/10/30/hadoop-ha-setup/ and
+# http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/HDFSHighAvailabilityWithQJM.html
+
+- name: create the journalnode directory
+  file: path={{ hadoop.dfs_dir_parent }}{{ hadoop.dfs_dir_jn }} owner=hdfs group=hdfs state=directory
+  tags: hadoop
+
+- name: install hadoop-hdfs-journalnode via yum
+  apt: name=hadoop-hdfs-journalnode state=latest
+  notify:
+    - restart hadoop-hdfs-journalnode
+

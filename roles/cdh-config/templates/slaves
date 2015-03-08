@@ -1,0 +1,2 @@
+{% for host in groups['datanodes'] %}{{ host }}
+{% endfor %}

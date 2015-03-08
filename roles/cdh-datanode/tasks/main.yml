@@ -1,0 +1,12 @@
+---
+- name: create the datanode directory
+  file: path={{ item }} owner=hdfs group=hdfs state=directory
+  with_items: hadoop.dfs_dir_dn
+
+- name: install hadoop-hdfs-datanode via yum
+  apt: name={{ item }}
+  with_items:
+    - hadoop-hdfs-datanode
+    - hadoop-client
+  notify:
+    - restart hadoop-hdfs-datanode

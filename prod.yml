@@ -1,0 +1,38 @@
+# ================================================
+#               HDFS
+# ================================================
+- hosts: journalnodes
+  sudo: True
+  roles:
+    - cdh-journalnode
+
+# Create first nameNode
+## This will be the active node
+- hosts: namenodes[0]
+  sudo: True
+  roles:
+    - cdh-namenode-active
+
+# Create standby datanode
+##
+- hosts: namenodes[1]
+  sudo: True
+  roles:
+    - cdh-namenode-standby
+
+# Starting Hadoop HDFS Zookeeper Failover Controller
+##
+- hosts: namenodes
+  sudo: True
+  tasks:
+    - name: starting Hadoop HDFS Zookeeper Failover Controller
+      service: name=hadoop-hdfs-zkfc state=started
+
+# Add datanodes
+##
+- hosts: datanodes
+  sudo: True
+  roles:
+    - cdh-datanode
+
+# ================================================

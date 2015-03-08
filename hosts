@@ -1,0 +1,53 @@
+[mesos_master]
+god1-mesos-master-1.sf.comprehend.com
+god2-mesos-master-1.sf.comprehend.com
+
+[chronos]
+god1-chronos-1.sf.comprehend.com
+
+[nimbus]
+god2-nimbus.sf.comprehend.com
+
+[zookeeper_nodes]
+god1-zk-1.sf.comprehend.com zoo_id=1
+god1-zk-2.sf.comprehend.com zoo_id=2
+god2-zk-1.sf.comprehend.com zoo_id=3
+
+[mesos_slaves]
+god1-mesos-slave-1.sf.comprehend.com
+god1-mesos-slave-2.sf.comprehend.com
+god1-mesos-slave-3.sf.comprehend.com
+god2-mesos-slave-1.sf.comprehend.com
+god2-mesos-slave-2.sf.comprehend.com
+god3-mesos-slave-1.sf.comprehend.com
+god4.sf.comprehend.com # this is a bare metal node, unlike the others which are lxc containers
+
+[storm_slaves]
+god1-storm-slave-1.sf.comprehend.com
+god2-storm-slave-1.sf.comprehend.com
+god2-storm-slave-2.sf.comprehend.com
+god3-storm-slave-1.sf.comprehend.com
+god3-storm-slave-2.sf.comprehend.com
+
+[kafka_brokers]
+god1-kafka-broker-1.sf.comprehend.com kafka_server_broker_id=1
+god2-kafka-broker-1.sf.comprehend.com kafka_server_broker_id=2
+god2-kafka-broker-2.sf.comprehend.com kafka_server_broker_id=3
+
+[postgres_nodes]
+god1-postgres.sf.comprehend.com
+
+[journalnodes]
+god2-hdfs-jn-1.sf.comprehend.com
+god3-hdfs-nn-1.sf.comprehend.com
+god4-hdfs-nn-1.sf.comprehend.com
+
+[namenodes]
+god3-hdfs-nn-1.sf.comprehend.com
+god4-hdfs-nn-1.sf.comprehend.com
+
+[datanodes]
+god3-hdfs-dn-1.sf.comprehend.com
+god4-hdfs-dn-1.sf.comprehend.com
+
+

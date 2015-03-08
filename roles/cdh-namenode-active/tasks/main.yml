@@ -1,0 +1,19 @@
+---
+- name: install hadoop-hdfs-namenode via apt
+  apt: name=hadoop-hdfs-namenode state=installed
+
+- name: create the name node data directory
+  file: path={{ hadoop.dfs_dir_parent  }}{{ hadoop.dfs_dir_nn }} owner=hdfs group=hdfs state=directory
+
+- name: format the namenode - WILL NOT FORMAT IF  current/VERSION EXISTS TO AVOID DATA LOSS
+  command: creates={{ hadoop.dfs_dir_parent  }}{{ hadoop.dfs_dir_nn }}/current/VERSION su - hdfs -c "hdfs namenode -format -force"
+
+- name: install hadoop-hdfs-zkfc (Hadoop HDFS Zookeeper Failover Controller) via apt
+  apt: name=hadoop-hdfs-zkfc state=installed
+
+- name: format hadoop-hdfs-zkfc
+  shell: creates={{ hadoop.dfs_dir_parent  }}{{ hadoop.dfs_dir_nn }}/.zkfsformatted su - hdfs -c " hdfs zkfc -formatZK -force"; touch {{ hadoop.dfs_dir_parent  }}{{ hadoop.dfs_dir_nn }}/.zkfsformatted
+
+- name: start primary datanode
+  service: name=hadoop-hdfs-namenode state=restarted enabled=yes
+

@@ -1,0 +1,27 @@
+---
+- name: Configure Cloudera APT key
+  sudo: yes
+  apt_key: url="http://archive.cloudera.com/cdh5/ubuntu/{{ ansible_distribution_release }}/amd64/cdh/archive.key"
+           state=present
+
+- name: Configure the Cloudera APT repositories
+  sudo: yes
+  apt_repository: repo="deb [arch=amd64] http://archive.cloudera.com/cdh5/ubuntu/{{ ansible_distribution_release }}/amd64/cdh {{ ansible_distribution_release }}-cdh5 contrib"
+                  state=present
+
+- name: Pin Cloudera APT repositories
+  sudo: yes
+  template: src=cdh5.j2 dest=/etc/apt/preferences.d/cdh5
+
+- name: Update cache
+  apt: update_cache=yes
+
+- name: install base Hadoop packages via apt
+  sudo: yes
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - hadoop
+    - hadoop-hdfs
+
+- include: user.yml
+
